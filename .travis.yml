@@ -5,6 +5,9 @@ language: bash
 services:
   - docker
 
+# The values for version and build match the version and build for nagios in the epel repo
+# Update when the upstream version-build changes
+# This allows us to stay aligned with the productized versioning (reason for not using the travis_build number)
 before_install:
   - export REPO=docker.io/rhmap/nagios
   - export VERSION=4.0.8
@@ -12,10 +15,10 @@ before_install:
   - docker build -f Dockerfile -t "$REPO:$VERSION-$BUILD" .
 
 after_success:
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - docker login --email=$DOCKER_EMAIL --username=$DOCKER_USER --password=$DOCKER_PASS https://index.docker.io/v1/
   - export TAG=latest
-  - docker tag -f "$REPO:$VERSION-$BUILD" $REPO:$TAG
-  - docker push -f "$REPO:$VERSION-$BUILD"
-  - docker push -f $REPO:$TAG
+  - docker tag "$REPO:$VERSION-$BUILD" $REPO:$TAG
+  - docker push "$REPO:$VERSION-$BUILD"
+  - docker push $REPO:$TAG
   - docker rmi "$REPO:$VERSION-$BUILD"
   - docker rmi $REPO:$TAG
