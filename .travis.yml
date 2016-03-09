@@ -6,6 +6,7 @@ services:
 - docker
 
 before_install:
+- export DOCKER_REGISTRY=https://index.docker.io/v1/
 - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USER" -p="$DOCKER_PASS" "$DOCKER_REGISTRY"
 - export REPO=docker.io/rhmap/nagios
 - export VERSION=4.0.8
