@@ -11,6 +11,7 @@ before_install:
 - export BUILD=2
 - docker build -f Dockerfile -t "$REPO:$VERSION-$BUILD" .
 
+
 after_success:
 - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USER" -p="$DOCKER_PASS" "$DOCKER_REGISTRY"
 - export TAG=latest
