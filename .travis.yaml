@@ -5,6 +5,7 @@ language: bash
 services:
   - docker
 
+
 before_install:
   - export REPO=docker.io/rhmap/nagios
   - export VERSION=4.0.8
