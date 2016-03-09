@@ -1,20 +1,25 @@
 sudo: required
+
 language: bash
+
 services:
 - docker
+
 before_install:
 - export REPO=docker.io/rhmap/nagios
 - export VERSION=4.0.8
 - export BUILD=2
 - docker build -f Dockerfile -t "$REPO:$VERSION-$BUILD" .
+
 after_success:
-- docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS https://index.docker.io/v1/
+- docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USER" -p="$DOCKER_PASS" https://index.docker.io/v1/
 - export TAG=latest
 - docker tag "$REPO:$VERSION-$BUILD" $REPO:$TAG
 - docker push "$REPO:$VERSION-$BUILD"
 - docker push $REPO:$TAG
 - docker rmi "$REPO:$VERSION-$BUILD"
 - docker rmi $REPO:$TAG
+
 env:
   matrix:
   - secure: UVDc36uUMcSTCmcM6vm+FgvT4RLTJh34JBmlLr4+0rg+BBcynee9E61vLy/PHlKrrsfWzOHwKJy6YsTawU+95fjcC3qcOtuY2K6isc5THVRMEmxp4A8ec11DJUjpPK5Rc7q0r71QgIkL7fP2f2Onp4te6trPCFXuVlsBxEevztsjUA008Q4IojVfvO9tCo+c+ZJIpq7fBw/fhEwczc4kjF2LEH2MnAVQmDsZ+WTF8Ip3jZk8y9EjJhylAyEpZdieTrwjn5RgbNKLndY8pP+aI32CqDUgKSgCf9Y57IjY2bVpEnw5erb+x5/An+bB7S0/4GvVdfCzeO5fIb9eonLIqEFzVFKluR72C4qyEFetRCQL135+TqegOxThsdKyaVOBLZXmnW6ZVVokKU4Z67+XRnAKbez0WvXWa8dgtYz3BtiqCF4m18wNfogk284LzQjBJgTyzos5s+1UwfCEBLTzHW6pcscylVT1bonXgCiDClyviu7gqQMEmW25TParK5h+P8smgQUVg3uHJr/+4OTNjD19QAe9rWG0I0CHilN3PLOXnJLC4S/O2SNG9yQB4ZbEd4FMYcWlEFI3G2QpRzNS06ZhjrImymCPKpn4RyVEHZxtzYya8Z9s5kq6iQoZCaWgjIu/8pAGk1NIjBfnUCoU5hIZ9oCdRudgb/Hfbj+HS7I=
